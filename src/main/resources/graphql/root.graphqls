@@ -1,0 +1,63 @@
+type Query{
+    getMyself: GetMyself!
+    getUsers(args: GetUsersArgs, pageArgs: PageOptions): GetUsers!
+}
+type Mutation{
+    inviteUser(args: InviteUserArgs!): InviteUser!
+    deleteUserById(args: DeleteUserByIdArgs!): DeleteUserById!
+    changeUserPassword(args: ChangeUserPasswordArgs!): ChangeUserPassword!
+}
+scalar LocalDateTime
+scalar FileUpload
+
+interface Page {
+    totalElements: Int!
+    totalPages: Int!
+}
+
+input Sort {
+    orders: [Order!]
+}
+
+enum NullHandling {
+    NATIVE,
+    NULLS_FIRST,
+    NULLS_LAST
+}
+enum Direction {
+    ASC,
+    DESC
+}
+
+input Order {
+    property: String!
+    direction: Direction
+    ignoreCase: Boolean
+    nullHandling: NullHandling
+}
+
+input PageOptions {
+    page: Int!
+    size: Int!
+    sort: Sort
+}
+
+type OperationError {
+    message: String!
+    type: OperationErrorType!
+}
+
+enum OperationErrorType {
+    INTERNAL_ERROR
+}
+
+type InputError {
+    field: String!
+    message: String!
+}
+
+type InputValidationError {
+    errors: [InputError!]!
+}
+
+

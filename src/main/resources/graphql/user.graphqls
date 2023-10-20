@@ -1,0 +1,54 @@
+union GetMyself = OperationError | User
+union GetUsers = InputValidationError | OperationError | UserPage
+union InviteUser = InputValidationError | OperationError | User
+union DeleteUserById = InputValidationError | OperationError | User
+union ChangeUserPassword = InputValidationError | OperationError | User
+
+type User {
+    createdAt: LocalDateTime!
+    fullName: String!
+    id: ID!
+    updatedAt: LocalDateTime!
+    userRole: UserRole!
+    username: String!
+}
+
+type UserPage implements Page {
+    totalElements: Int!
+    totalPages: Int!
+    content: [User!]
+}
+
+enum UserRole {
+    ADMIN
+    SELLER
+    BUYER
+}
+input GetUsersArgs {
+    text: String
+    userRole: UserRole
+}
+
+input InviteUserArgs {
+    fullName: String!
+    password: String!
+    userRole: UserRole!
+    username: String!
+}
+
+input DeleteUserByIdArgs {
+    id: ID!
+}
+
+input ChangeUserPasswordArgs {
+    data: ChangeUserPasswordData!
+    where: ChangeUserPasswordWhere!
+}
+
+input ChangeUserPasswordData {
+    newPassword: String!
+}
+
+input ChangeUserPasswordWhere {
+    id: ID!
+}
